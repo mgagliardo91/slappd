@@ -8,11 +8,11 @@ This lambda works by storing the last known `checkinId` and using this ID to req
 
 This lambda function runs off of a few different environmental variables:
 
-- UNTAPPD_ID: Untappd API id for the account
-- UNTAPPD_SECRET: Untappd API secret for the account
-- UNTAPPD_TOKEN: Untappd API token for the account
-- SLACK_TOKEN: Slack API app slug _format (TXXXXXXXX/BXXXXXXXX/TXXXXXXXXXXXXXXXXXXXXXXX)
-- USERS: Comma-separated list of usernames (lowercase) the lambda should process
+- **UNTAPPD_ID**: Untappd API id for the account
+- **UNTAPPD_SECRET**: Untappd API secret for the account
+- **UNTAPPD_TOKEN**: Untappd API token for the account
+- **SLACK_TOKEN**: Slack API app slug _format (TXXXXXXXX/BXXXXXXXX/TXXXXXXXXXXXXXXXXXXXXXXX)
+- **USERS**: Comma-separated list of usernames (lowercase) the lambda should process
 
 1. Clone this repo
 2. Create a AWS lambda and give it a role that has permission to access S3
