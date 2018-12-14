@@ -214,8 +214,6 @@ const sendCheckinsToSlack = async checkins => {
         }  catch (e) {
             console.log("Error while attempting to post checkin to Slack: " + e);
         }
-       
-       break;
     }
 }
 
