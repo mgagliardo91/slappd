@@ -29,6 +29,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         env:
-          TEST: ${{ github.event.inputs.facilitySlug }}
+          TEST: ${{ github.event.inputs.facilitySlug || github.event.client_payload.facilitySlug }}
         run: |
           echo $TEST
