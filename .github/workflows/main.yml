@@ -1,5 +1,7 @@
 name: CI
 on:
+  repository_dispatch:
+    types: [test]
   workflow_dispatch:
     inputs:
       facilitySlug:
