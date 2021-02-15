@@ -18,7 +18,7 @@ on:
 env:
   FACILITY_SLUG: ${{ github.event.inputs.facilitySlug || github.event.client_payload.facilitySlug }}
   EXTRA_ARGS: ${{ github.event.inputs.extraArgs || github.event.client_payload.extraArgs }}
-  SKIP_ISSUE_CREATION: ${{ github.event.inputs.skipIssueCreation == 'true' }}
+  SKIP_ISSUE_CREATION: ${{ env.GITHUB_EVENT_NAME == 'workflow_dispatch' && github.event.inputs.skipIssueCreation == 'true' }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -28,8 +28,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-    - name: Test
-      run: "echo $GITHUB_EVENT_NAME"
     - name: Login
       if: ${{ !env.SKIP_ISSUE_CREATION }}
       uses: atlassian/gajira-login@master
