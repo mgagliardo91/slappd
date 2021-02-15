@@ -27,6 +27,6 @@ jobs:
           EKAE: Update Config
         description: |
           This is a automated request to update EKAE config.
-        fields: '{"customfield_11300": "15"}'
+        fields: '{"customfield_11300": "15", "status": "10201", "customfield_10005": 1.0, "labels": ["ready-to-groom"], "priority": "2", "reporter": "c795ce72a4c4463b68ca110"}'
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
