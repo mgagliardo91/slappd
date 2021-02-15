@@ -27,7 +27,7 @@ jobs:
           EKAE: Update Config
         description: |
           This is a automated request to update EKAE config.
-        fields: '{"customfield_11300": "15", "customfield_10005": 1.0, "labels": ["ready-to-groom"], "priority": "2", "reporter": "c795ce72a4c4463b68ca110"}'
+        fields: '{"customfield_11300": "15", "customfield_10005": 1.0, "labels": ["ready-to-groom"], "priority": "High", "reporter": "c795ce72a4c4463b68ca110"}'
     - name: Transition issue
       uses: atlassian/gajira-transition@master
       with:
