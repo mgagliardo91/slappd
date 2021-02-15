@@ -27,6 +27,6 @@ jobs:
           EKAE: Update Config
         description: |
           This is a automated request to update EKAE config.
-        fields: '{"customfield_11300": { "id": "15", "title": "Paas", "isShared": true }}'
+        fields: '{"customfield_11300": "15"}'
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
