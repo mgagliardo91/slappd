@@ -32,6 +32,6 @@ jobs:
       uses: atlassian/gajira-transition@master
       with:
         issue: ${{ steps.create.outputs.issue }}
-        transitionId: "10201"  
+        transitionId: "101"  
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
