@@ -1,34 +1,32 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
-
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  repository_dispatch:
-    types: [test]
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    inputs:
-      facilitySlug:
-        description: "Facility slug"
-        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  test-create-issue:
+    name: Test
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@master
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        env:
-          TEST: ${{ github.event.inputs.facilitySlug || github.event.client_payload.facilitySlug }}
-        run: |
-          echo $TEST
+    - name: Login
+      uses: atlassian/gajira-login@master
+      env:
+        JIRA_BASE_URL: https://ndustrialio.atlassian.net
+        JIRA_USER_EMAIL: michael@ndustrial.io
+        JIRA_API_TOKEN: cfPeHCNKcOHUHNb22AZU7438
+    - name: Create
+      id: create
+      uses: atlassian/gajira-create@master
+      with:
+        project: NBD
+        issuetype: Task
+        summary: |
+          EKAE: Update Config
+        description: |
+          This is a automated request to update EKAE config.
+        fields: '{"customfield_11300": { "id": "15", "title": "Paas", "isShared": true }}'
+    - name: Log created issue
+      run: echo "Issue ${{ steps.create.outputs.issue }} was created"
