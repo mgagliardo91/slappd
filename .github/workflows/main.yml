@@ -10,15 +10,14 @@ on:
       extraArgs:
         description: "Extra flags passed to script"
         required: false
-      skipIssueCreation:
+      createJiraIssue:
         description: "Skip creating an associated Jira Issue"
         required: false
-        default: "true"
 
 env:
   FACILITY_SLUG: ${{ github.event.inputs.facilitySlug || github.event.client_payload.facilitySlug }}
   EXTRA_ARGS: ${{ github.event.inputs.extraArgs || github.event.client_payload.extraArgs }}
-  SKIP_ISSUE_CREATION: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skipIssueCreation == 'true' }}
+  CREATE_JIRA_ISSUE: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.createJiraIssue == 'true' }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -31,7 +30,7 @@ jobs:
     - name: Test
       run: "echo $SKIP_ISSUE_CREATION"
     - name: Login
-      if: "!${{ env.SKIP_ISSUE_CREATION }}"
+      if: ${{ env.CREATE_JIRA_ISSUE }}
       uses: atlassian/gajira-login@master
       env:
         JIRA_BASE_URL: https://ndustrialio.atlassian.net
@@ -39,7 +38,7 @@ jobs:
         JIRA_API_TOKEN: cfPeHCNKcOHUHNb22AZU7438
     - name: Create
       id: create
-      if: "!${{ env.SKIP_ISSUE_CREATION }}"
+      if: ${{ env.CREATE_JIRA_ISSUE }}
       uses: atlassian/gajira-create@master
       with:
         project: NBD
@@ -50,11 +49,11 @@ jobs:
           This is a automated request to update EKAE config.
         fields: '{"customfield_11300": "15", "customfield_10005": 1.0, "labels": ["ready-to-groom"], "priority": { "id": "2"}}'
     - name: Transition issue
-      if: "!${{ env.SKIP_ISSUE_CREATION }}"
+      if: ${{ env.CREATE_JIRA_ISSUE }}
       uses: atlassian/gajira-transition@master
       with:
         issue: ${{ steps.create.outputs.issue }}
         transitionId: "101"  
     - name: Log created issue
-      if: "!${{ env.SKIP_ISSUE_CREATION }}"
+      if: ${{ env.CREATE_JIRA_ISSUE }}
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
