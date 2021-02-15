@@ -11,7 +11,7 @@ on:
         description: "Extra flags passed to script"
         required: false
       createJiraIssue:
-        description: "Skip creating an associated Jira Issue"
+        description: "Create Jira Issue"
         required: false
 
 env:
@@ -28,9 +28,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
     - name: Test
-      run: "echo $SKIP_ISSUE_CREATION"
+      run: "echo $CREATE_JIRA_ISSUE"
     - name: Login
-      if: ${{ env.CREATE_JIRA_ISSUE }}
+      if: env.CREATE_JIRA_ISSUE == 'true'
       uses: atlassian/gajira-login@master
       env:
         JIRA_BASE_URL: https://ndustrialio.atlassian.net
@@ -38,7 +38,7 @@ jobs:
         JIRA_API_TOKEN: cfPeHCNKcOHUHNb22AZU7438
     - name: Create
       id: create
-      if: ${{ env.CREATE_JIRA_ISSUE }}
+      if: env.CREATE_JIRA_ISSUE == 'true'
       uses: atlassian/gajira-create@master
       with:
         project: NBD
@@ -49,11 +49,11 @@ jobs:
           This is a automated request to update EKAE config.
         fields: '{"customfield_11300": "15", "customfield_10005": 1.0, "labels": ["ready-to-groom"], "priority": { "id": "2"}}'
     - name: Transition issue
-      if: ${{ env.CREATE_JIRA_ISSUE }}
+      if: env.CREATE_JIRA_ISSUE == 'true'
       uses: atlassian/gajira-transition@master
       with:
         issue: ${{ steps.create.outputs.issue }}
         transitionId: "101"  
     - name: Log created issue
-      if: ${{ env.CREATE_JIRA_ISSUE }}
+      if: env.CREATE_JIRA_ISSUE == 'true'
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
