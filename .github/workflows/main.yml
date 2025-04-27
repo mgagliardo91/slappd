@@ -35,7 +35,7 @@ jobs:
       env:
         JIRA_BASE_URL: https://ndustrialio.atlassian.net
         JIRA_USER_EMAIL: michael@ndustrial.io
-        JIRA_API_TOKEN: cfPeHCNKcOHUHNb22AZU7438
+        JIRA_API_TOKEN: blkkk
     - name: Create
       id: create
       if: env.CREATE_JIRA_ISSUE == 'true'
